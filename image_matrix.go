@@ -2,12 +2,12 @@ package photomosaic
 
 import (
 	"errors"
-	"image"
 	"fmt"
+	"image"
 )
 
 const (
-	subimageWidthPx = 200
+	subimageWidthPx  = 200
 	subimageHeightPx = 150
 )
 
@@ -20,12 +20,12 @@ func NewImageMatrix(i *image.NRGBA) (*ImageMatrix, error) {
 	w := b.Max.X - b.Min.X
 	h := b.Max.Y - b.Min.Y
 
-	if (w % subimageWidthPx != 0) {
+	if w%subimageWidthPx != 0 {
 		err := errors.New(fmt.Sprintf("width must be divisible by %d", subimageWidthPx))
 		return nil, err
 	}
 
-	if (h % subimageHeightPx != 0) {
+	if h%subimageHeightPx != 0 {
 		err := errors.New(fmt.Sprintf("height must be divisible by %d", subimageHeightPx))
 		return nil, err
 	}
@@ -34,17 +34,16 @@ func NewImageMatrix(i *image.NRGBA) (*ImageMatrix, error) {
 }
 
 func (p *ImageMatrix) genSubImageRectangles() []image.Rectangle {
-        var out []image.Rectangle
-        b := p.img.Bounds()
+	var out []image.Rectangle
+	b := p.img.Bounds()
 
-        for y := b.Min.Y; y < b.Max.Y; y += subimageHeightPx {
-                for x:= b.Min.X; x < b.Max.X; x += subimageWidthPx {
-                        out = append(out, image.Rect(x, y, x+subimageWidthPx, y+subimageHeightPx))
-                }
-        }
-        return out
+	for y := b.Min.Y; y < b.Max.Y; y += subimageHeightPx {
+		for x := b.Min.X; x < b.Max.X; x += subimageWidthPx {
+			out = append(out, image.Rect(x, y, x+subimageWidthPx, y+subimageHeightPx))
+		}
+	}
+	return out
 }
-
 
 func (p *ImageMatrix) SubImages() []image.Image {
 	listRec := p.genSubImageRectangles()
@@ -55,4 +54,3 @@ func (p *ImageMatrix) SubImages() []image.Image {
 	}
 	return out
 }
-
