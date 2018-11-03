@@ -11,11 +11,16 @@ const (
 	subimageHeightPx = 150
 )
 
-type ImageMatrix struct {
-	img *image.NRGBA
+type SubbableImage interface {
+	image.Image
+	SubImage(r image.Rectangle) image.Image
 }
 
-func NewImageMatrix(i *image.NRGBA) (*ImageMatrix, error) {
+type ImageMatrix struct {
+	img SubbableImage
+}
+
+func NewImageMatrix(i SubbableImage) (*ImageMatrix, error) {
 	b := i.Bounds()
 	w := b.Max.X - b.Min.X
 	h := b.Max.Y - b.Min.Y
