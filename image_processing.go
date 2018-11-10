@@ -71,13 +71,14 @@ func NewIndexedImages(dirpath string) (IndexedImages, error) {
 	indexImages.signatures = make([]ImageSignature, count)
 	errs := make([]error, count)
 
+	semaphore := make(chan struct{}, 50)
 	collector := make(chan struct {
 		img image.Image
 		sgn ImageSignature
 		err error
 	})
 	for i := range files {
-		go indexImage(dirpath+"/"+files[i].Name(), collector)
+		go indexImage(dirpath+"/"+files[i].Name(), collector, semaphore)
 	}
 	for i := 0; i < count; i++ {
 		tuple := <-collector
@@ -100,24 +101,30 @@ func NewIndexedImages(dirpath string) (IndexedImages, error) {
 	return indexImages, nil
 }
 
-func indexImage(filename string, out chan<- struct {
-	img image.Image
-	sgn ImageSignature
-	err error
-}) {
+func readImage(filename string, semaphore chan struct{}) (image.Image, error) {
+	semaphore <- struct{}{}
+	defer func() { <-semaphore }()
 
 	file, err := os.Open(filename)
 	if err != nil {
-		out <- struct {
-			img image.Image
-			sgn ImageSignature
-			err error
-		}{nil, ImageSignature{0.0, 0.0, 0.0}, err}
-		return
+		return nil, err
 	}
 	defer file.Close()
 
 	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+
+	return img, nil
+}
+
+func indexImage(filename string, out chan<- struct {
+	img image.Image
+	sgn ImageSignature
+	err error
+}, semaphore chan struct{}) {
+	img, err := readImage(filename, semaphore)
 	if err != nil {
 		out <- struct {
 			img image.Image
