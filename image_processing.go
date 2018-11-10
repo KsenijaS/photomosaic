@@ -36,9 +36,12 @@ func NewImageSignature(img image.Image) ImageSignature {
 		}
 	}
 
-	s := sumr + sumg + sumb + 1
+	maxpix := 255
+	perr := float64(sumr) / float64(numpix)
+	perg := float64(sumg) / float64(numpix)
+	perb := float64(sumb) / float64(numpix)
 
-	return ImageSignature{float64(sumr) / float64(s), float64(sumg) / float64(s), float64(sumb) / float64(s)}
+	return ImageSignature{float64(perr) / float64(maxpix), float64(perg) / float64(maxpix), float64(perb) / float64(maxpix)}
 }
 
 func (p *ImageSignature) distance(other *ImageSignature) float64 {
