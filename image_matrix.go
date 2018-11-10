@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"image"
+	"image/color"
+	"image/draw"
 )
 
 const (
@@ -14,6 +16,7 @@ const (
 type SubbableImage interface {
 	image.Image
 	SubImage(r image.Rectangle) image.Image
+	Set(x, y int, c color.Color)
 }
 
 type ImageMatrix struct {
@@ -58,4 +61,12 @@ func (p *ImageMatrix) SubImages() []image.Image {
 		out[i] = p.img.SubImage(listRec[i])
 	}
 	return out
+}
+
+func (p *ImageMatrix) generateImageMatrix(in []image.Image) {
+	listRec := p.genSubImageRectangles()
+
+	for i := range listRec {
+		draw.Draw(p.Img, listRec[i], in[i], in[i].Bounds().Min, draw.Src)
+	}
 }
