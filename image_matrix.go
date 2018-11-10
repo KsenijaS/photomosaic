@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	subimageWidthPx  = 200
-	subimageHeightPx = 150
+	subimageWidthPx  = 30
+	subimageHeightPx = 30
 )
 
 type SubbableImage interface {
