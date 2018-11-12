@@ -2,10 +2,10 @@ package photomosaic
 
 import (
 	"image"
-	"testing"
-	"strings"
-	"image/draw"
 	"image/color"
+	"image/draw"
+	"strings"
+	"testing"
 )
 
 func TestNewImageMatrixAcceptsImageOfSubimageSize(t *testing.T) {
@@ -64,7 +64,7 @@ func TestgenSubImagesRectanglesReturnsCorrectNumberOfRectangles(t *testing.T) {
 
 func TestgenSubImagesRectanglesReturnsCorrectCoordinates(t *testing.T) {
 	input := image.NewNRGBA(image.Rect(0, 0, 400, 450))
-	coord := []image.Point{{0, 0},{200, 0}, {0, 150}, {200, 150}, {0, 300}, {200, 300}}
+	coord := []image.Point{{0, 0}, {200, 0}, {0, 150}, {200, 150}, {0, 300}, {200, 300}}
 	im, _ := NewImageMatrix(input)
 	listRec := im.genSubImageRectangles()
 	for i := range coord {
@@ -88,9 +88,9 @@ func TestSubImagesReturnsExpectedImages(t *testing.T) {
 	draw.Draw(input, image.Rect(200, 150, 400, 300), &image.Uniform{purple}, image.ZP, draw.Src)
 
 	im, err := NewImageMatrix(input)
-        if err != nil {
-                t.Fatalf("Error creating ImageMatrix: %s", err)
-        }
+	if err != nil {
+		t.Fatalf("Error creating ImageMatrix: %s", err)
+	}
 
 	imgRec := im.SubImages()
 
