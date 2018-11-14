@@ -25,7 +25,7 @@ func NewImageSignature(img image.Image) ImageSignature {
 	var c color.Color
 
 	bounds := img.Bounds()
-
+	numpix := (bounds.Max.Y - bounds.Min.Y) * (bounds.Max.X - bounds.Min.X)
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			c = img.At(x, y)
