@@ -12,7 +12,7 @@ func GenerateImageMatrixFromImages(img SubbableImage, i IndexedImages) (*ImageMa
 		return nil, err
 	}
 
-	outimgs := imgmtx.subImages()
+	outimgs := imgmtx.SubImages()
 	for k := range outimgs {
 		outimgs[k] = imaging.Resize(i.FindClosest(outimgs[k]), 30, 30, imaging.Lanczos)
 	}
