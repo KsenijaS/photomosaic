@@ -67,6 +67,6 @@ func (p *ImageMatrix) generateImageMatrix(in []image.Image) {
 	listRec := p.genSubImageRectangles()
 
 	for i := range listRec {
-		draw.Draw(p.Img, listRec[i], in[i], in[i].Bounds().Min, draw.Src)
+		draw.Draw(p.img, listRec[i], in[i], in[i].Bounds().Min, draw.Src)
 	}
 }
