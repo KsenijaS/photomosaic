@@ -36,7 +36,7 @@ func NewImageSignature(img image.Image) ImageSignature {
 		}
 	}
 
-	maxpix := 255
+	maxpix := 65535
 	perr := float64(sumr) / float64(numpix)
 	perg := float64(sumg) / float64(numpix)
 	perb := float64(sumb) / float64(numpix)
