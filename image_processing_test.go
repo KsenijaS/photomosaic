@@ -45,7 +45,7 @@ func TestNewImageSignatureReturnsCorrectNumbersOnlyBlueAndRed(t *testing.T) {
 
 	sign := NewImageSignature(input)
 
-	if !almostEqual(sign.r, 1.0/2) || !almostEqual(sign.g, 0.0) || !almostEqual(sign.b, 1.0/2) {
+	if !almostEqual(sign.r, 1.0/3) || !almostEqual(sign.g, 0.0) || !almostEqual(sign.b, 1.0/3) {
 		t.Errorf("The concentration of red, blue or green color is not correct r %f, g %f, b %f", sign.r, sign.g, sign.b)
 	}
 }
