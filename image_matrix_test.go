@@ -17,7 +17,7 @@ func TestNewImageMatrixAcceptsImageOfSubimageSize(t *testing.T) {
 	if im == nil {
 		t.Errorf("Image was nil")
 	}
-	if input != im.img {
+	if input != im.Img {
 		t.Errorf("Input image was not stored in the returned struct")
 	}
 }
