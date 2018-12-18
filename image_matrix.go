@@ -20,7 +20,7 @@ type SubbableImage interface {
 }
 
 type ImageMatrix struct {
-	img SubbableImage
+	Img SubbableImage
 }
 
 func NewImageMatrix(i SubbableImage) (*ImageMatrix, error) {
@@ -38,12 +38,12 @@ func NewImageMatrix(i SubbableImage) (*ImageMatrix, error) {
 		return nil, err
 	}
 
-	return &ImageMatrix{img: i}, nil
+	return &ImageMatrix{Img: i}, nil
 }
 
 func (p *ImageMatrix) genSubImageRectangles() []image.Rectangle {
 	var out []image.Rectangle
-	b := p.img.Bounds()
+	b := p.Img.Bounds()
 
 	for y := b.Min.Y; y < b.Max.Y; y += subimageHeightPx {
 		for x := b.Min.X; x < b.Max.X; x += subimageWidthPx {
@@ -58,7 +58,7 @@ func (p *ImageMatrix) SubImages() []image.Image {
 	out := make([]image.Image, len(listRec))
 
 	for i := range listRec {
-		out[i] = p.img.SubImage(listRec[i])
+		out[i] = p.Img.SubImage(listRec[i])
 	}
 	return out
 }
@@ -67,6 +67,6 @@ func (p *ImageMatrix) generateImageMatrix(in []image.Image) {
 	listRec := p.genSubImageRectangles()
 
 	for i := range listRec {
-		draw.Draw(p.img, listRec[i], in[i], in[i].Bounds().Min, draw.Src)
+		draw.Draw(p.Img, listRec[i], in[i], in[i].Bounds().Min, draw.Src)
 	}
 }
